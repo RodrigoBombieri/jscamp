@@ -190,7 +190,9 @@ form span {
   flex-shrink: 0;
 }
 
-form input[type="text"] {
+/* support search inputs too */
+form input[type="text"],
+form input[type="search"] {
   flex: 1;
   background: transparent;
   border: none;
@@ -201,29 +203,53 @@ form input[type="text"] {
   font-family: inherit;
 }
 
-form input[type="text"]::placeholder {
+form input[type="text"]::placeholder,
+form input[type="search"]::placeholder {
   color: #64748b;
 }
 
 form button[type="submit"] {
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  background-color: var(--primary);
+  padding: 0.6rem 1rem;
+  border-radius: 0.6rem;
+  background-color: #0d6efd; /* blue button to match screenshot */
   color: white;
   font-weight: 700;
   border: none;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.15s ease, transform 0.1s ease;
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.95rem;
   white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(13,110,253,0.25);
 }
 
 form button[type="submit"]:hover,
 form button[type="submit"]:focus {
-  background-color: var(--primary-hover);
-  outline: 2px solid white;
-  outline-offset: 2px;
+  background-color: #0b5ed7; /* slightly darker on hover */
+  transform: translateY(-1px);
+  outline: none;
+}
+
+/* Improve the form container appearance to match screenshots */
+form > div {
+  max-width: 720px;
+  margin: 0 auto;
+  background-color: rgba(30,41,59,0.9); /* slight transparency over hero */
+  border-radius: 12px;
+  padding: 0.5rem;
+}
+
+form span {
+  padding-left: 0.75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+form svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* Features Section */
