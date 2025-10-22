@@ -24,4 +24,13 @@ fetch("./data.json") // Ruta al archivo JSON
 
       container.appendChild(article) // Agrega el article al contenedor principal
     });
+    // Actualizar contador inicial después de cargar todos los empleos
+    const totalJobs = document.querySelectorAll('.job-listing-card').length
+    const visibleJobs = document.querySelectorAll('.job-listing-card:not(.is-hidden)').length
+    const jobCountElement = document.querySelector('#job-count')
+    const totalJobsElement = document.querySelector('#total-jobs')
+    
+    if (jobCountElement) jobCountElement.textContent = visibleJobs
+    if (totalJobsElement) totalJobsElement.textContent = totalJobs
   });
+

@@ -29,7 +29,9 @@
 
         <div>
             <a href="">Subir CV</a>
-            <img src="./images/profile-photo.jpg" alt="Profile photo">
+            <devjobs-avatar service="github" username="RodrigoBombieri" size="40"></devjobs-avatar>
+            <!-- También se pueden incorporar avatars -->
+            <devjobs-avatar service="google" username="google.com" size="40"></devjobs-avatar>
         </div>
 
     </header>
@@ -51,8 +53,7 @@
                     </span>
 
                     <input id="empleos-search-input" required type="search"
-                        placeholder="Buscar empleos por titulo, habilidad o empresa" aria-label="Buscar empleos">
-                    <button type="submit">Buscar</button>
+                        placeholder="Buscar empleos por titulo" aria-label="Buscar empleos">
                 </div>
 
                 <div class="desplegables">
@@ -93,6 +94,7 @@
                     </select>
                 </div>
             </form>
+            <span>Mostrando <strong id="job-count">0</strong> de <strong id="total-jobs">0</strong> empleos</span>
         </section>
 
         <section class="job-results" id="resultados">
