@@ -1,53 +1,65 @@
 import { state } from './config.js'
+import { allJobs, applyFiltersAndRender } from './fetch-data.js'
 
 state.count++
-
 console.log(state)
 
-const filter = document.querySelector('#filter-location')
+const filterLocation = document.querySelector('#filter-location')
+const filterTechnology = document.querySelector('#filter-technology')
+const filterLevel = document.querySelector('#filter-experience-level')
 const searchInput = document.querySelector('#empleos-search-input')
-let jobCountElement = document.querySelector('#job-count')
-let totalJobsElement = document.querySelector('#total-jobs')
 
-filter.addEventListener('change', function () {
-  const jobs = document.querySelectorAll('.job-listing-card')
+// Variables para mantener el estado de los filtros
+let currentSearchTerm = ''
+let currentLocationFilter = ''
+let currentTechnologyFilter = ''
+let currentLevelFilter = ''
 
-  const selectedValue = filter.value
+// Función que define la lógica de filtrado
+function getFilterFunction() {
+  return (job) => {
+    // Filtro de búsqueda por título
+    const titleMatch = job.titulo.toLowerCase().includes(currentSearchTerm)
+    
+    // Filtros de selects
+    const locationMatch = currentLocationFilter === '' || job.data.modalidad === currentLocationFilter
+    const technologyMatch = currentTechnologyFilter === '' || job.data.technology === currentTechnologyFilter
+    const levelMatch = currentLevelFilter === '' || job.data.nivel === currentLevelFilter
+    
+    // Debe cumplir TODOS los criterios
+    return titleMatch && locationMatch && technologyMatch && levelMatch
+  }
+}
 
+// Función para aplicar todos los filtros
+function applyAllFilters() {
+  // Esperar a que allJobs tenga datos
+  if (!allJobs || allJobs.length === 0) {
+    setTimeout(applyAllFilters, 100)
+    return
+  }
+  
+  applyFiltersAndRender(getFilterFunction())
+}
 
-  jobs.forEach(job => {
-    // const modalidad = job.dataset.modalidad
-    const modalidad = job.getAttribute('data-modalidad')
-    const isShown = selectedValue === '' || selectedValue === modalidad
-    job.classList.toggle('is-hidden', isShown === false)
-  })
-  const totalJobs = document.querySelectorAll('.job-listing-card').length
-  const visibleJobs = document.querySelectorAll('.job-listing-card:not(.is-hidden)').length
-  if (jobCountElement) jobCountElement.textContent = visibleJobs
-  if (totalJobsElement) totalJobsElement.textContent = totalJobs
+// Event listeners para los filtros de select
+filterLocation.addEventListener('change', function () {
+  currentLocationFilter = filterLocation.value
+  applyAllFilters()
 })
 
+filterTechnology.addEventListener('change', function () {
+  currentTechnologyFilter = filterTechnology.value
+  applyAllFilters()
+})
 
+filterLevel.addEventListener('change', function () {
+  currentLevelFilter = filterLevel.value
+  applyAllFilters()
+})
 
-/* Filtro de busqueda por título */
-// Obtener referencia al input de búsqueda
-
-// Agregar un event listener para el evento 'input'
+// Event listener para el input de búsqueda
 searchInput.addEventListener('input', function () {
-  const jobs = document.querySelectorAll('.job-listing-card') // Obtener todos los empleos
-  const searchTerm = searchInput.value.toLowerCase() // Obtener el término de búsqueda y convertirlo a minúsculas
-
-  // Recorrer cada empleo y verificar si el título incluye el término de búsqueda
-  jobs.forEach(job => {
-    const title = job.querySelector('h3').textContent.toLowerCase() // Obtener el título del empleo y convertirlo a minúsculas
-    const isShown = title.includes(searchTerm) // Verificar si el título incluye el término de búsqueda
-    // Crear un nuevo array con las ofertas que coinciden con la búsqueda
-    job.classList.toggle('is-hidden', isShown === false) // Mostrar u ocultar el empleo según el resultado
-  })
-
-  // Actualizar contador después de filtrar
-  const totalJobs = document.querySelectorAll('.job-listing-card').length
-  const visibleJobs = document.querySelectorAll('.job-listing-card:not(.is-hidden)').length
-  if (jobCountElement) jobCountElement.textContent = visibleJobs
-  if (totalJobsElement) totalJobsElement.textContent = totalJobs
+  currentSearchTerm = searchInput.value.toLowerCase()
+  applyAllFilters()
 })
