@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explora las últimas ofertas de empleo para desarrolladores en DevJobs.
+    Encuentra oportunidades laborales en tecnología, programación y desarrollo web.">
+    <title>DevJobs - Empleos</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <script type="module">
+        import React from "https://esm.sh/react?dev";
+        import ReactDom from "https://esm.sh/react-dom/client?dev";
+
+        const titulo = React.createElement(
+            "h1",
+            {style: {color: "#09f"}},
+            "Hola, React.js!"
+        )
+
+        const rootEl = document.querySelector('#root');
+        const root = ReactDom.createRoot(rootEl);
+        root.render(titulo)
+    </script>
+    
+</head>
+
+<body>
+    <header>
+        <h1>
+            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+            DevJobs
+        </h1>
+
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="empleos.html" class="active">Empleos</a>
+        </nav>
+
+        <div>
+            <a href="">Subir CV</a>
+            <devjobs-avatar service="github" username="RodrigoBombieri" size="40"></devjobs-avatar>
+            <!-- También se pueden incorporar avatars -->
+            <devjobs-avatar service="google" username="google.com" size="40"></devjobs-avatar>
+        </div>
+
+    </header>
+
+    <main>
+        <section class="job-search-hero">
+            <h1>React.js, primeros pasos</h1>
+            <div id="root">
+
+            </div>
+            
+        </section>
+
+    </main>
+
+    <footer>
+        <small>&copy; 2025 DevJobs. Todos los derechos reservados.</small>
+    </footer>
+</body>
+
+</html>
