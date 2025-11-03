@@ -1,40 +1,57 @@
-export function SearchFormSection() {
-  return (
-    <section className="job-search-hero">
-      <h1>Encuentra tu próximo trabajo</h1>
-      <p>Explora las últimas ofertas de empleo en el sector tecnológico.</p>
-      <form role="search">
-        <div className="search-bar">
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="icon icon-tabler icons-tabler-outline icon-tabler-search"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-              <path d="M21 21l-6 -6" />
-            </svg>
-          </span>
+import { useId } from "react"
 
+export function SearchFormSection ({ onTextFilter, onSearch }) {
+  const idText = useId()
+  const idTechnology = useId()
+  const idLocation = useId()
+  const idExperienceLevel = useId()
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    
+    const formData = new FormData(event.target)
+
+    const filters = {
+      technology: formData.get(idTechnology),
+      location: formData.get(idLocation),
+      experienceLevel: formData.get(idExperienceLevel)
+    }
+
+    onSearch(filters)
+  }
+
+  const handleTextChange = (event) => {
+    const text = event.target.value
+    onTextFilter(text)
+  }
+
+  return (
+    <section className="jobs-search">
+      <h1>Encuentra tu próximo trabajo</h1>
+      <p>Explora miles de oportunidades en el sector tecnológico.</p>
+
+      <form onSubmit={handleSubmit} id="empleos-search-form" role="search">
+        <div className="search-bar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"
+            className="icon icon-tabler icons-tabler-outline icon-tabler-search">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+            <path d="M21 21l-6 -6" />
+          </svg>
+
+          
           <input
-            id="empleos-search-input"
-            required
-            type="search"
-            placeholder="Buscar empleos por titulo"
-            aria-label="Buscar empleos"
-          ></input>
+            name={idText} id="empleos-search-input" type="text"
+            placeholder="Buscar trabajos, empresas o habilidades"
+            onChange={handleTextChange}
+          />
+          
+          <button type="submit" style={{ position: 'absolute', right: '4px' }}>Buscar</button>
         </div>
 
-        <div className="desplegables">
-          <select name="technology" id="filter-technology">
+        <div className="search-filters">
+          <select name={idTechnology} id="filter-technology">
             <option value="">Tecnología</option>
             <optgroup label="Tecnologías populares">
               <option value="javascript">JavaScript</option>
@@ -50,20 +67,18 @@ export function SearchFormSection() {
             <hr />
             <option value="ruby">Ruby</option>
             <option value="php">PHP</option>
-            <option value="mobile">Mobile</option>
           </select>
 
-          <select name="location" id="filter-location">
+          <select name={idLocation} id="filter-location">
             <option value="">Ubicación</option>
             <option value="remoto">Remoto</option>
             <option value="cdmx">Ciudad de México</option>
             <option value="guadalajara">Guadalajara</option>
             <option value="monterrey">Monterrey</option>
             <option value="barcelona">Barcelona</option>
-            <option value="bsas">Buenos Aires</option>
           </select>
 
-          <select name="experience-level" id="filter-experience-level">
+          <select name={idExperienceLevel} id="filter-experience-level">
             <option value="">Nivel de experiencia</option>
             <option value="junior">Junior</option>
             <option value="mid">Mid-level</option>
@@ -72,10 +87,8 @@ export function SearchFormSection() {
           </select>
         </div>
       </form>
-      <span>
-        Mostrando <strong id="job-count">0</strong> de{" "}
-        <strong id="total-jobs">0</strong> empleos
-      </span>
+
+      <span id="filter-selected-value"></span>
     </section>
-  );
+  )
 }
